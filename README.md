@@ -79,3 +79,8 @@ Add mobile app
 Improve dataset quantity
 
 Add segmentation module
+
+
+
+
+**Read first requiremnets.txt file, install all the neccessay packages**
