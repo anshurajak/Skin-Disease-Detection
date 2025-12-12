@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #d9a7c7, #fffcdc);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 600;
+            color: #5e548e;
+        }
+
+        .predictions-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .prediction-card {
+            background-color: #f8f7fa;
+            border-radius: 16px;
+            padding: 30px 20px;
+            box-shadow: 0 8px 24px rgba(94, 84, 142, 0.08);
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .prediction-card:hover {
+            box-shadow: 0 12px 32px rgba(94, 84, 142, 0.15);
+        }
+
+        .prediction-card img {
+            max-width: 220px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(94, 84, 142, 0.08);
+        }
+
+        .prediction-card h3 {
+            font-size: 22px;
+            margin: 10px 0 18px 0;
+            color: #34495e;
+            font-weight: 600;
+        }
+
+        .prediction-card p {
+            font-size: 15px;
+            color: #555;
+            margin: 0 0 8px 0;
+        }
+
+        .no-result, .error-message {
+            text-align: center;
+            font-size: 18px;
+            color: #d63031;
+            margin-top: 60px;
+            font-weight: 600;
+        }
+
+        .home-btn {
+            display: block;
+            margin: 40px auto 0 auto;
+            padding: 14px 0;
+            width: 100%;
+            max-width: 300px;
+            background-color: #5e548e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 16px rgba(94, 84, 142, 0.08);
+        }
+
+        .home-btn:hover {
+            background-color: #7d6fb3;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            .prediction-card {
+                padding: 18px 8px;
+            }
+            .home-btn {
+                font-size: 16px;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Prediction Results</h2>
+
+        {% if predictions %}
+            {% if predictions.0.error %}
+                <p class="error-message">Please upload correct image.</p>
+            {% else %}
+                <div class="predictions-container">
+                    {% for prediction in predictions %}
+                        <div class="prediction-card">
+                            <img src="{{ prediction.image_path }}" alt="Uploaded Image">
+                            <h3>Disease: {{ prediction.disease_name }}</h3>
+                            <p><strong>Cause:</strong> {{ prediction.details.Cause }}</p>
+                            <p><strong>Symptoms:</strong> {{ prediction.details.Symptoms }}</p>
+                            <p><strong>Common Areas:</strong> {{ prediction.details.CommonAreas }}</p>
+                            <p><strong>Risk Factors:</strong> {{ prediction.details.RiskFactors }}</p>
+                            <p><strong>Treatment:</strong> {{ prediction.details.Treatment }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="no-result">No predictions found.</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="home-btn">Go Home</a>
+    </div>
+</body>
+</html>

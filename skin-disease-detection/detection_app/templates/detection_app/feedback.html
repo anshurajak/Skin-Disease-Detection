@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Feedback</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #d9a7c7, #fffcdc);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #5e548e;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #5e548e;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #7d6fb3;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f3f3f3;
+            margin: 8px 0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .home-button a {
+            text-decoration: none;
+            background-color: #5e548e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-button a:hover {
+            background-color: #7d6fb3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="home-button">
+            <a href="/">Home</a>
+        </div>
+
+        <h1>User Feedback</h1>
+
+        {% if success %}
+            <div class="alert-success">{{ success }}</div>
+        {% endif %}
+
+        <form method="POST" action="/feedback/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user_name">Name:</label>
+                <input type="text" id="user_name" name="user_name">
+            </div>
+            <div class="form-group">
+                <label for="user_email">Email:</label>
+                <input type="email" id="user_email" name="user_email">
+            </div>
+            <div class="form-group">
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit Feedback</button>
+            </div>
+        </form>
+
+        <div>
+            <h2>Previous Feedback</h2>
+            <ul>
+                {% for feedback in feedback_list %}
+                    <li><strong>{{ feedback.name|default:"Anonymous" }}</strong>: {{ feedback.message }}</li>
+                {% empty %}
+                    <li>No feedback available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
