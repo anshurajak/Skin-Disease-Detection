@@ -1,3 +1,4 @@
+python-3.11.9
 Django==4.2
 djangorestframework==3.14.0
 django-crispy-forms==1.14.0
